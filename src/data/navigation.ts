@@ -1,10 +1,10 @@
 import { components } from "./components";
 
-export type NavLink = { label: string; to: string; badge?: string };
+export type NavLink = { label: string; to: string; badge?: string | undefined };
 export type NavGroup = {
   label: string;
   items: NavLink[];
-  groups?: { label: string; items: NavLink[] }[];
+  groups?: { label: string; items: NavLink[] }[] | undefined;
 };
 
 const componentLinks = (category: string): NavLink[] =>
@@ -13,7 +13,7 @@ const componentLinks = (category: string): NavLink[] =>
     .map((component) => ({
       label: component.name,
       to: `/components/${component.slug}`,
-      badge: component.status === "stable" ? undefined : component.status,
+      ...(component.status === "stable" ? {} : { badge: component.status }),
     }));
 
 export const sidebarNav: NavGroup[] = [
